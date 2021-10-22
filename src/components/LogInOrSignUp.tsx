@@ -9,7 +9,7 @@ interface IProps {
   someText?: string;
 }
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles({
   title: { fontSize: 50, fontFamily: 'Dancing Script', color: '#6C1D79' },
   inputBox: {
     width: '30%',
@@ -40,7 +40,7 @@ export const useStyles = makeStyles(() => ({
     color: '#6A6A6A',
     marginTop: 0,
   },
-}));
+});
 
 const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText }) => {
   const classes = useStyles();

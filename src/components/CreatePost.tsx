@@ -1,10 +1,11 @@
 import { FC, useState } from 'react';
-import { Box, Avatar, TextField, Dialog, DialogTitle } from '@mui/material';
+import { Box, Avatar, TextField, Button, Dialog, DialogTitle, styled } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import UploadIcon from '@mui/icons-material/Upload';
 
 import Avatar1 from '../assets/images/Avatar1.jpeg';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles({
   wrapper: {
     display: 'flex',
     alignItems: 'center',
@@ -35,32 +36,109 @@ export const useStyles = makeStyles(() => ({
     color: '#8A8A8A',
     marginLeft: 20,
   },
-}));
+  dialogTitle: {
+    textAlign: 'center',
+  },
+  dialogTextArea: {
+    padding: '10px 5%',
+  },
+  dialogImageWrapper: {
+    border: '1px solid #C0C0C0',
+    borderRadius: 5,
+    display: 'flex',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    padding: 10,
+    width: '95%',
+  },
+  dialogImage: {
+    // height: 300,
+    width: '100%',
+    borderRadius: 5,
+  },
+  buttonWrapper: {
+    width: '100%',
+    height: 50,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  uploadButton: {
+    color: '#CF95D8',
+    textTransform: 'none',
+    borderRadius: 10,
+    width: '90%',
+  },
+  postButton: {
+    textTransform: 'none',
+    marginTop: 20,
+    borderRadius: 0,
+  },
+});
 
 interface IDialog {
   open: boolean;
   onClose: () => void;
 }
 
+const Input = styled('input')({
+  display: 'none',
+});
+
 const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
+  const classes = useStyles();
+
+  const [image, setImage] = useState('');
+
+  const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      if (Array.from(e.target.files).length > 1) {
+        e.preventDefault();
+        alert(`Cannot upload files more than 1`);
+        return;
+      }
+      setImage(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
   return (
-    <Dialog onClose={onClose} open={open}>
-      <DialogTitle>Create post</DialogTitle>
+    <Dialog onClose={onClose} open={open} fullWidth maxWidth='xs'>
+      <DialogTitle className={classes.dialogTitle}>Create post</DialogTitle>
       <Box display='flex' flexGrow={1} height='1px' bgcolor='#C0C0C0' />
-      <TextField
-        hiddenLabel
-        variant='standard'
-        multiline
-        rows={4}
-        placeholder="What's on your mind, Celia?"
-        // className={classes.inputBox}
-        // color='secondary'
-        // InputLabelProps={{
-        //   className: classes.placeholder,
-        // }}
-        //       value={name}
-        //   onChange={handleChange}
-      />
+      <Box width='100%' height={400} maxHeight={800} overflow='scroll' display='flex' flexDirection='column'>
+        <TextField
+          hiddenLabel
+          variant='standard'
+          multiline
+          rows={4}
+          placeholder="What's on your mind, Celia?"
+          className={classes.dialogTextArea}
+          InputProps={{ disableUnderline: true }}
+          //       value={name}
+          //   onChange={handleChange}
+        />
+        {image && (
+          <Box className={classes.dialogImageWrapper}>
+            <img src={image} alt='uploaded item' className={classes.dialogImage} />
+          </Box>
+        )}
+      </Box>
+      <Box display='flex' justifyContent='center'>
+        <label htmlFor='contained-button-file' className={classes.buttonWrapper}>
+          <Input accept='image/*' id='contained-button-file' multiple type='file' onChange={uploadImage} />
+          <Button
+            variant='outlined'
+            component='span'
+            color='secondary'
+            endIcon={<UploadIcon />}
+            className={classes.uploadButton}
+          >
+            Add an image to your post
+          </Button>
+        </label>
+      </Box>
+      <Button variant='contained' color='secondary' className={classes.postButton}>
+        Post
+      </Button>
     </Dialog>
   );
 };
