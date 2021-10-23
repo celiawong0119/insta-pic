@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Box, TextField, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -7,6 +8,7 @@ interface IProps {
   linkText: string;
   linkDesc: string;
   someText?: string;
+  path: string;
 }
 
 export const useStyles = makeStyles({
@@ -42,9 +44,14 @@ export const useStyles = makeStyles({
   },
 });
 
-const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText }) => {
+const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText, path }) => {
   const classes = useStyles();
 
+  let history = useHistory();
+
+  const onPathClick = () => {
+    history.push(path);
+  };
   return (
     <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='85vh'>
       <h1 className={classes.title}>InstaPic</h1>
@@ -83,7 +90,10 @@ const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText }
       </Box>
       <Box>
         <p style={{ color: '#6D6D6D' }}>
-          {linkDesc} <a className={classes.goToButton}>{linkText}</a>
+          {linkDesc}{' '}
+          <span onClick={onPathClick} className={classes.goToButton}>
+            {linkText}
+          </span>
         </p>
       </Box>
     </Box>

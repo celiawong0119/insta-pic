@@ -1,12 +1,16 @@
 import { FC } from 'react';
 import { Box } from '@mui/material';
 
-import CreatePost from '../../components/CreatePost';
+import Header from '../../components/Header';
+import Posts from '../../components/Posts';
 
 const Home: FC = () => {
   return (
-    <Box>
-      <CreatePost />
+    <Box paddingTop={10}>
+      <Header />
+      {[1, 2].map((id) => (
+        <Posts key={id} id={id} />
+      ))}
     </Box>
   );
 };

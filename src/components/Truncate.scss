@@ -1,0 +1,46 @@
+// modified base on: https://css-tricks.com/multiline-truncated-text-with-show-more-button/
+// implement truncate
+.truncateContainer {
+  input {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  p {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  input:checked + p {
+    -webkit-line-clamp: unset;
+  }
+
+  input:checked ~ label,
+  p:not(.truncated) ~ label {
+    display: none;
+  }
+}
+
+// styles
+.truncateContainer {
+  .author {
+    font-weight: 700;
+    margin-right: 10;
+    white-space: 'nowrap';
+    text-overflow: 'ellipsis';
+    overflow: 'hidden';
+    margin-right: 5px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  label {
+    color: #c0c0c0;
+    cursor: pointer;
+  }
+}

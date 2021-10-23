@@ -1,28 +1,15 @@
 import { FC, useState } from 'react';
-import { Box, Avatar, TextField, Button, Dialog, DialogTitle, styled } from '@mui/material';
+import { Box, TextField, Button, Dialog, DialogTitle, IconButton, styled } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import UploadIcon from '@mui/icons-material/Upload';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
-import Avatar1 from '../assets/images/Avatar1.jpeg';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
-export const useStyles = makeStyles({
-  wrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '45%',
-    minWidth: 300,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 7,
-    height: 60,
-    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2)',
-    boxSizing: 'border-box',
-  },
+const useStyles = makeStyles({
   textWrapper: {
     backgroundColor: '#EFF2F5',
     borderRadius: 50,
-    width: '80%',
-    minWidth: 230,
     height: 40,
     display: 'flex',
     alignItems: 'center',
@@ -52,7 +39,6 @@ export const useStyles = makeStyles({
     width: '95%',
   },
   dialogImage: {
-    // height: 300,
     width: '100%',
     borderRadius: 5,
   },
@@ -87,7 +73,12 @@ const Input = styled('input')({
 const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
   const classes = useStyles();
 
+  const [caption, setCaption] = useState('');
   const [image, setImage] = useState('');
+
+  const onCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCaption(e.target.value);
+  };
 
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -104,17 +95,17 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
     <Dialog onClose={onClose} open={open} fullWidth maxWidth='xs'>
       <DialogTitle className={classes.dialogTitle}>Create post</DialogTitle>
       <Box display='flex' flexGrow={1} height='1px' bgcolor='#C0C0C0' />
-      <Box width='100%' height={400} maxHeight={800} overflow='scroll' display='flex' flexDirection='column'>
+      <Box width='100%' height={370} maxHeight={800} overflow='scroll' display='flex' flexDirection='column'>
         <TextField
           hiddenLabel
           variant='standard'
           multiline
-          rows={4}
+          rows={3}
           placeholder="What's on your mind, Celia?"
           className={classes.dialogTextArea}
           InputProps={{ disableUnderline: true }}
-          //       value={name}
-          //   onChange={handleChange}
+          value={caption}
+          onChange={onCaptionChange}
         />
         {image && (
           <Box className={classes.dialogImageWrapper}>
@@ -122,7 +113,7 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
           </Box>
         )}
       </Box>
-      <Box display='flex' justifyContent='center'>
+      <Box display='flex' justifyContent='center' mt={2}>
         <label htmlFor='contained-button-file' className={classes.buttonWrapper}>
           <Input accept='image/*' id='contained-button-file' multiple type='file' onChange={uploadImage} />
           <Button
@@ -148,6 +139,8 @@ const CreatePost: FC = () => {
 
   const [open, setOpen] = useState(false);
 
+  const isMobile = useMediaQuery('(max-width: 550px)');
+
   const onClickOpen = () => {
     setOpen(true);
   };
@@ -157,16 +150,25 @@ const CreatePost: FC = () => {
   };
 
   return (
-    <Box display='flex' justifyContent='center' alignItems='center'>
-      <Box className={classes.wrapper}>
-        <Avatar alt='example' src={Avatar1} />
-        <Box onClick={onClickOpen} className={classes.textWrapper}>
-          <p className={classes.text}>What's on your mind, Celia?</p>
-          {/* when the width become 320 (<<min):  <p className={classes.text}>What's on your mind?</p> */}
+    <div>
+      {isMobile ? (
+        <Box>
+          <Box onClick={onClickOpen}>
+            <IconButton color='secondary' size='small'>
+              <AddAPhotoIcon />
+            </IconButton>
+          </Box>
+          <CreatePostDialog open={open} onClose={onClose} />
         </Box>
-        <CreatePostDialog open={open} onClose={onClose} />
-      </Box>
-    </Box>
+      ) : (
+        <Box width='30%' minWidth={250}>
+          <Box onClick={onClickOpen} className={classes.textWrapper}>
+            <p className={classes.text}>What's on your mind, Celia?</p>
+          </Box>
+          <CreatePostDialog open={open} onClose={onClose} />
+        </Box>
+      )}
+    </div>
   );
 };
 
