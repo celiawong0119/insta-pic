@@ -33,7 +33,7 @@ const Posts: FC<{ id: number }> = ({ id }) => {
           />
           <CardMedia component='img' width='100%' image={Avatar1} alt='example' />
           <CardContent className={classes.contentWrapper}>
-            <Typography variant='body2'>
+            <Typography variant='body2' component='span'>
               <Truncate
                 id={id}
                 author='Celia'
@@ -41,7 +41,7 @@ const Posts: FC<{ id: number }> = ({ id }) => {
               />
             </Typography>
             <Box mt={1}>
-              <Typography variant='caption' color='text.secondary'>
+              <Typography variant='caption' component={'span'} color='text.secondary'>
                 23 Oct 2021
               </Typography>
             </Box>

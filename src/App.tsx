@@ -1,17 +1,26 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import axios from 'axios';
 import { Container } from '@mui/material';
 
+import PrivateRoute from './components/PrivateRoute';
 import LogInOrSignUp from './components/LogInOrSignUp';
 import Home from './pages/Home';
 
-function App() {
+const setAxiosDefault = () => {
+  axios.defaults.baseURL = process.env.REACT_APP_API;
+  axios.defaults.headers.common['Content-Type'] = 'application/json';
+};
+
+setAxiosDefault();
+
+const App = () => {
   return (
     <Router>
       <Container>
         <Switch>
-          <Route path='/login'>
-            <LogInOrSignUp buttonLabel='Log In' linkText='Sign Up' linkDesc='Don"t have an account?' path='/signup' />
-          </Route>
+          <PrivateRoute path='/home'>
+            <Home />
+          </PrivateRoute>
           <Route path='/signup'>
             <LogInOrSignUp
               buttonLabel='Sign Up'
@@ -21,13 +30,16 @@ function App() {
               path='/login'
             />
           </Route>
+          <Route path='/login'>
+            <LogInOrSignUp buttonLabel='Log In' linkText='Sign Up' linkDesc='Don"t have an account?' path='/signup' />
+          </Route>
           <Route path='/'>
-            <Home />
+            <Redirect to='/login' />
           </Route>
         </Switch>
       </Container>
     </Router>
   );
-}
+};
 
 export default App;

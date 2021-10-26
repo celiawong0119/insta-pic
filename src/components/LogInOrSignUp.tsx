@@ -1,7 +1,12 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, TextField, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+
+import { login } from '../store/actions/authActions';
+import { RootState } from '../store/reducers';
+import { getAuthTokenFromCookie } from '../libAddons/universal-cookies';
 
 interface IProps {
   buttonLabel: string;
@@ -46,12 +51,35 @@ export const useStyles = makeStyles({
 
 const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText, path }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { data } = useSelector((state: RootState) => state.user);
 
-  let history = useHistory();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (data || getAuthTokenFromCookie()) {
+      history.push('/home');
+    }
+  }, [data, history]);
+
+  const onUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const onLoginClick = () => {
+    dispatch(login({ username: username, password: password }));
+  };
 
   const onPathClick = () => {
     history.push(path);
   };
+
   return (
     <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='85vh'>
       <h1 className={classes.title}>InstaPic</h1>
@@ -64,8 +92,8 @@ const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText, 
         InputLabelProps={{
           className: classes.placeholder,
         }}
-        //       value={name}
-        //   onChange={handleChange}
+        value={username}
+        onChange={onUsernameChange}
       />
       <TextField
         label='Password'
@@ -75,10 +103,16 @@ const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText, 
         InputLabelProps={{
           className: classes.placeholder,
         }}
-        //       value={name}
-        //   onChange={handleChange}
+        value={password}
+        onChange={onPasswordChange}
       />
-      <Button variant='contained' className={classes.submitButton} color='secondary' disabled>
+      <Button
+        onClick={onLoginClick}
+        disabled={!password}
+        variant='contained'
+        className={classes.submitButton}
+        color='secondary'
+      >
         {buttonLabel}
       </Button>
       <Box display='flex' width='30%' alignItems='center' mt={4} mb={3}>
