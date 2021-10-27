@@ -22,16 +22,10 @@ const App = () => {
             <Home />
           </PrivateRoute>
           <Route path='/signup'>
-            <LogInOrSignUp
-              buttonLabel='Sign Up'
-              linkText='Log In'
-              linkDesc='Have an account?'
-              someText='Sign up to see photos from your friends.'
-              path='/login'
-            />
+            <LogInOrSignUp variant='signup' />
           </Route>
           <Route path='/login'>
-            <LogInOrSignUp buttonLabel='Log In' linkText='Sign Up' linkDesc='Don"t have an account?' path='/signup' />
+            <LogInOrSignUp variant='login' />
           </Route>
           <Route path='/'>
             <Redirect to='/login' />

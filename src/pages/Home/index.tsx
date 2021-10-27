@@ -8,7 +8,6 @@ const Home: FC = () => {
   return (
     <Box paddingTop={10}>
       <Header />
-      <div>home</div>
       {[1, 2].map((id) => (
         <Posts key={id} id={id} />
       ))}

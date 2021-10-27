@@ -4,16 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, TextField, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { login } from '../store/actions/authActions';
+import { login, signup } from '../store/actions/authActions';
 import { RootState } from '../store/reducers';
 import { getAuthTokenFromCookie } from '../libAddons/universal-cookies';
 
 interface IProps {
-  buttonLabel: string;
-  linkText: string;
-  linkDesc: string;
-  someText?: string;
-  path: string;
+  variant: 'login' | 'signup';
 }
 
 export const useStyles = makeStyles({
@@ -49,11 +45,11 @@ export const useStyles = makeStyles({
   },
 });
 
-const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText, path }) => {
+const LogInOrSignUp: FC<IProps> = ({ variant }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { data } = useSelector((state: RootState) => state.user);
+  const { data, error } = useSelector((state: RootState) => state.user);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -64,6 +60,12 @@ const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText, 
     }
   }, [data, history]);
 
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
   const onUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
@@ -72,18 +74,20 @@ const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText, 
     setPassword(e.target.value);
   };
 
-  const onLoginClick = () => {
-    dispatch(login({ username: username, password: password }));
+  const onClick = () => {
+    variant === 'login'
+      ? dispatch(login({ username: username, password: password }))
+      : dispatch(signup({ username: username, password: password }));
   };
 
   const onPathClick = () => {
-    history.push(path);
+    variant === 'login' ? history.push('/signup') : history.push('/login');
   };
 
   return (
     <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' height='85vh'>
       <h1 className={classes.title}>InstaPic</h1>
-      {someText && <h4 className={classes.someText}>{someText}</h4>}
+      {variant === 'signup' && <h4 className={classes.someText}>Sign up to see photos from your friends.</h4>}
       <TextField
         label='Username'
         variant='outlined'
@@ -107,13 +111,13 @@ const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText, 
         onChange={onPasswordChange}
       />
       <Button
-        onClick={onLoginClick}
+        onClick={onClick}
         disabled={!password}
         variant='contained'
         className={classes.submitButton}
         color='secondary'
       >
-        {buttonLabel}
+        {variant === 'login' ? 'Log In' : 'Sign Up'}
       </Button>
       <Box display='flex' width='30%' alignItems='center' mt={4} mb={3}>
         <Box display='flex' flexGrow={1} height='1px' bgcolor='#C0C0C0' />
@@ -124,9 +128,9 @@ const LogInOrSignUp: FC<IProps> = ({ buttonLabel, linkText, linkDesc, someText, 
       </Box>
       <Box>
         <p style={{ color: '#6D6D6D' }}>
-          {linkDesc}{' '}
+          {variant === 'login' ? "Don't have an account" : 'Have an account?'}{' '}
           <span onClick={onPathClick} className={classes.goToButton}>
-            {linkText}
+            {variant === 'login' ? 'Sign Up' : 'Log In'}
           </span>
         </p>
       </Box>

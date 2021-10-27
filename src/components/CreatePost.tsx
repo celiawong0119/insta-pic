@@ -150,7 +150,8 @@ const CreatePost: FC = () => {
   };
 
   return (
-    <div>
+    // <Box width='100%' display='flex' justifyContent='center'>
+    <Box>
       {isMobile ? (
         <Box>
           <Box onClick={onClickOpen}>
@@ -168,7 +169,7 @@ const CreatePost: FC = () => {
           <CreatePostDialog open={open} onClose={onClose} />
         </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
