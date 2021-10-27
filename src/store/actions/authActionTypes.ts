@@ -5,9 +5,7 @@ export const LOGIN_ACTIONS = {
 };
 
 export const LOGOUT_ACTIONS = {
-  START: 'LOGOUT_START',
   SUCCESS: 'LOGOUT_SUCCESS',
-  FAILED: 'LOGOUT_FAILED',
 };
 
 export const SIGNUP_ACTIONS = {

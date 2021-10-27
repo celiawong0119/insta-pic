@@ -1,21 +1,28 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useCallback } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 
-import { getAuthTokenFromCookie } from '../libAddons/universal-cookies';
+import { cookies, getAuthTokenFromCookie } from '../libAddons/universal-cookies';
 
 const PrivateRoute: FC<{
   path: string;
 }> = ({ children, path }) => {
-  const jwtToken = getAuthTokenFromCookie();
   const history = useHistory();
 
-  useEffect(() => {
+  const onCookieChange = () => {
+    const jwtToken = getAuthTokenFromCookie();
     if (!jwtToken) {
       history.push('/login');
     }
-  }, [jwtToken, history]);
+  };
 
-  return <Route path={path}>{jwtToken ? children : null}</Route>;
+  const memoizedCallback = useCallback(onCookieChange, [onCookieChange]);
+
+  useEffect(() => {
+    cookies.addChangeListener(memoizedCallback);
+    return () => cookies.removeChangeListener(memoizedCallback);
+  }, [memoizedCallback]);
+
+  return <Route path={path}>{children}</Route>;
 };
 
 export default PrivateRoute;

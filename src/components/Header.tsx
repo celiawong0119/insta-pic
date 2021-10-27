@@ -1,9 +1,11 @@
 import { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { Box, IconButton, Avatar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import CreatePost from './CreatePost';
+import { logout } from '../store/actions/authActions';
 import Avatar1 from '../assets/images/Avatar1.jpeg';
 
 export const useStyles = makeStyles({
@@ -12,6 +14,11 @@ export const useStyles = makeStyles({
 
 const Header: FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const onLogoutClick = () => {
+    dispatch(logout());
+  };
 
   return (
     <Box
@@ -31,8 +38,8 @@ const Header: FC = () => {
       <h1 className={classes.title}>InstaPic</h1>
       <CreatePost />
       <Box display='flex' alignItems='center' width={100} justifyContent='space-between'>
-        <IconButton color='secondary' size='small'>
-          <HomeIcon fontSize='large' />
+        <IconButton onClick={onLogoutClick} color='secondary' size='small'>
+          <LogoutIcon fontSize='large' />
         </IconButton>
         <Avatar alt='example' src={Avatar1} />
       </Box>

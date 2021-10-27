@@ -1,9 +1,12 @@
 import { FC, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, TextField, Button, Dialog, DialogTitle, IconButton, styled } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
+import { createPost } from '../store/actions/postActions';
+import { RootState } from '../store/reducers';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
 const useStyles = makeStyles({
@@ -72,9 +75,13 @@ const Input = styled('input')({
 
 const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state: RootState) => state.posts);
+  const { data } = useSelector((state: RootState) => state.user);
 
-  const [caption, setCaption] = useState('');
-  const [image, setImage] = useState('');
+  const [caption, setCaption] = useState<string>('');
+  const [imageName, setImageName] = useState<string>('');
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
 
   const onCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCaption(e.target.value);
@@ -84,10 +91,19 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
     if (e.target.files) {
       if (Array.from(e.target.files).length > 1) {
         e.preventDefault();
-        alert(`Cannot upload files more than 1`);
+        alert('Cannot upload files more than 1');
         return;
       }
-      setImage(URL.createObjectURL(e.target.files[0]));
+      setImageName(URL.createObjectURL(e.target.files[0]));
+      console.log(e.target.files[0]);
+      setImageFile(e.target.files[0]);
+    }
+  };
+
+  const onPostClick = () => {
+    console.log(data, imageFile, caption);
+    if (data && imageFile && caption) {
+      dispatch(createPost({ userId: data.id, imageFile: imageFile, caption: caption }));
     }
   };
 
@@ -107,9 +123,9 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
           value={caption}
           onChange={onCaptionChange}
         />
-        {image && (
+        {imageName && (
           <Box className={classes.dialogImageWrapper}>
-            <img src={image} alt='uploaded item' className={classes.dialogImage} />
+            <img src={imageName} alt='uploaded item' className={classes.dialogImage} />
           </Box>
         )}
       </Box>
@@ -127,7 +143,13 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
           </Button>
         </label>
       </Box>
-      <Button variant='contained' color='secondary' className={classes.postButton}>
+      <Button
+        onClick={onPostClick}
+        disabled={!imageName || !caption || loading}
+        variant='contained'
+        color='secondary'
+        className={classes.postButton}
+      >
         Post
       </Button>
     </Dialog>

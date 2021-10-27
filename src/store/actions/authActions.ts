@@ -1,9 +1,10 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { IApiLoginOrSignUpPayload } from './@apiTypes/auth';
+
 import { AppThunk } from '../../libAddons/redux-thunk';
-import { LOGIN_ACTIONS, SIGNUP_ACTIONS } from './authActionTypes';
-import { setAuthTokenToCookie } from '../../libAddons/universal-cookies';
+import { IApiLoginOrSignUpPayload } from './@apiTypes/auth';
 import { IUserData } from '../reducers/@dataModals/auth';
+import { LOGIN_ACTIONS, SIGNUP_ACTIONS, LOGOUT_ACTIONS } from './authActionTypes';
+import { setAuthTokenToCookie, clearAuthTokenInCookie } from '../../libAddons/universal-cookies';
 
 export const login =
   ({ username, password }: IApiLoginOrSignUpPayload): AppThunk =>
@@ -51,3 +52,8 @@ export const signup =
       });
     }
   };
+
+export const logout = (): AppThunk => async (dispatch) => {
+  clearAuthTokenInCookie();
+  dispatch({ type: LOGOUT_ACTIONS.SUCCESS });
+};

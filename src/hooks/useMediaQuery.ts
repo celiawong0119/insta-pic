@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 // use to detect screen size eg. useMediaquery('(min-width: 768px)')
-export const useMediaQuery = (query:string) => {
+export const useMediaQuery = (query: string) => {
   const mediaMatch = window.matchMedia(query);
   const [matches, setMatches] = useState(mediaMatch.matches);
 
@@ -9,6 +9,7 @@ export const useMediaQuery = (query:string) => {
     const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
     mediaMatch.addEventListener('change', handler);
     return () => mediaMatch.removeEventListener('change', handler);
-  });
+  }, [mediaMatch]);
+
   return matches;
 };

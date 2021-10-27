@@ -1,6 +1,6 @@
 import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
+export const cookies = new Cookies();
 
 // cookies.set('jwtToken', response.headers['jwt-token']);
 

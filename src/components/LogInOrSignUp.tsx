@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, TextField, Button } from '@mui/material';
@@ -49,7 +49,7 @@ const LogInOrSignUp: FC<IProps> = ({ variant }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { data, error } = useSelector((state: RootState) => state.user);
+  const { data, loading, error } = useSelector((state: RootState) => state.user);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -74,10 +74,16 @@ const LogInOrSignUp: FC<IProps> = ({ variant }) => {
     setPassword(e.target.value);
   };
 
-  const onClick = () => {
+  const onClickLoginOrSignup = () => {
     variant === 'login'
       ? dispatch(login({ username: username, password: password }))
       : dispatch(signup({ username: username, password: password }));
+  };
+
+  const onEnter = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onClickLoginOrSignup();
+    }
   };
 
   const onPathClick = () => {
@@ -101,6 +107,7 @@ const LogInOrSignUp: FC<IProps> = ({ variant }) => {
       />
       <TextField
         label='Password'
+        onKeyPress={onEnter}
         variant='outlined'
         className={classes.inputBox}
         color='secondary'
@@ -111,8 +118,8 @@ const LogInOrSignUp: FC<IProps> = ({ variant }) => {
         onChange={onPasswordChange}
       />
       <Button
-        onClick={onClick}
-        disabled={!password}
+        onClick={onClickLoginOrSignup}
+        disabled={!password || loading}
         variant='contained'
         className={classes.submitButton}
         color='secondary'
