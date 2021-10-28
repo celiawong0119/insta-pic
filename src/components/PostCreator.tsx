@@ -95,20 +95,31 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
         return;
       }
       setImageName(URL.createObjectURL(e.target.files[0]));
-      console.log(e.target.files[0]);
       setImageFile(e.target.files[0]);
     }
   };
 
+  const handleClose = () => {
+    console.log('start');
+    onClose();
+    setCaption('');
+    setImageName('');
+    setImageFile(undefined);
+    console.log('finish');
+  };
+
   const onPostClick = () => {
-    console.log(data, imageFile, caption);
     if (data && imageFile && caption) {
       dispatch(createPost({ userId: data.id, imageFile: imageFile, caption: caption }));
+      handleClose();
+    } else {
+      alert('Create post failed');
+      handleClose();
     }
   };
 
   return (
-    <Dialog onClose={onClose} open={open} fullWidth maxWidth='xs'>
+    <Dialog onClose={handleClose} open={open} fullWidth maxWidth='xs'>
       <DialogTitle className={classes.dialogTitle}>Create post</DialogTitle>
       <Box display='flex' flexGrow={1} height='1px' bgcolor='#C0C0C0' />
       <Box width='100%' height={370} maxHeight={800} overflow='scroll' display='flex' flexDirection='column'>
@@ -117,7 +128,7 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
           variant='standard'
           multiline
           rows={3}
-          placeholder="What's on your mind, Celia?"
+          placeholder="What's on your mind?"
           className={classes.dialogTextArea}
           InputProps={{ disableUnderline: true }}
           value={caption}
@@ -156,7 +167,7 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
   );
 };
 
-const CreatePost: FC = () => {
+const PostCreator: FC = () => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -186,7 +197,7 @@ const CreatePost: FC = () => {
       ) : (
         <Box width='30%' minWidth={250}>
           <Box onClick={onClickOpen} className={classes.textWrapper}>
-            <p className={classes.text}>What's on your mind, Celia?</p>
+            <p className={classes.text}>What's on your mind?</p>
           </Box>
           <CreatePostDialog open={open} onClose={onClose} />
         </Box>
@@ -195,4 +206,4 @@ const CreatePost: FC = () => {
   );
 };
 
-export default CreatePost;
+export default PostCreator;

@@ -1,5 +1,6 @@
 import { IUserData } from './@dataModals/auth';
 import { LOGIN_ACTIONS, SIGNUP_ACTIONS, LOGOUT_ACTIONS, VERIFY_TOKEN_ACTIONS } from '../actions/authActionTypes';
+import { CREATE_POST_ACTIONS } from '../actions/postActionTypes';
 
 interface IUserReducerState {
   loading: boolean;
@@ -60,6 +61,13 @@ const userReducer = (state = initialState, action: any): IUserReducerState => {
 
     case VERIFY_TOKEN_ACTIONS.FAILED:
       return { ...state, error: action.payload };
+
+    case CREATE_POST_ACTIONS.SUCCESS:
+      return {
+        ...state,
+        data: { ...state.data!, posts: [action.payload].concat(state!.data!.posts) },
+        error: undefined,
+      };
 
     default:
       return state;

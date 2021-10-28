@@ -1,12 +1,15 @@
-import { CREATE_POST_ACTIONS } from '../actions/postActionTypes';
+import { IPostData } from './@dataModals/post';
+import { CREATE_POST_ACTIONS, GET_POST_ACTIONS } from '../actions/postActionTypes';
 
 interface IPostReducerState {
   loading: boolean;
+  data: IPostData[];
   error: string | undefined;
 }
 
 const initialState: IPostReducerState = {
   loading: false,
+  data: [],
   error: undefined,
 };
 
@@ -19,7 +22,16 @@ const postReducer = (state = initialState, action: any): IPostReducerState => {
       return { ...initialState };
 
     case CREATE_POST_ACTIONS.FAILED:
-      return { ...state, error: 'Failed to create post' };
+      return { ...initialState, error: 'Failed to create post' };
+
+    case GET_POST_ACTIONS.START:
+      return { ...initialState, loading: true };
+
+    case GET_POST_ACTIONS.SUCCESS:
+      return { ...initialState, data: action.payload };
+
+    case GET_POST_ACTIONS.FAILED:
+      return { ...initialState, error: 'Failed to get posts' };
 
     default:
       return state;

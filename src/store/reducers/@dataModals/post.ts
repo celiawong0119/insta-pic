@@ -1,5 +1,7 @@
 export interface IPostData {
   id: number;
-  imageFile: File;
+  imageName: string;
   caption: string;
+  createdDate: number;
+  author: { userId: number; name: string };
 }

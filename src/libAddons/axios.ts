@@ -17,3 +17,22 @@ export async function postRequest<Payload, Response>({
     jwtToken ? { headers: { 'x-auth-token': jwtToken } } : {}
   );
 }
+
+export async function getRequest<Params, Response>({
+  url,
+  params,
+}: {
+  url: string;
+  params?: Params;
+}): Promise<AxiosResponse<Response>> {
+  const jwtToken = getAuthTokenFromCookie();
+
+  return await axios.get(`${axios.defaults.baseURL}${url}`, {
+    params,
+    headers: jwtToken
+      ? {
+          'x-auth-token': jwtToken,
+        }
+      : undefined,
+  });
+}

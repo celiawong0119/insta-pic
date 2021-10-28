@@ -3,7 +3,8 @@ import { Box, Avatar, Card, CardHeader, CardMedia, CardContent, Typography } fro
 import { makeStyles } from '@mui/styles';
 
 import Truncate from './Truncate';
-import Avatar1 from '../assets/images/Avatar1.jpeg';
+import { IPostData } from '../store/reducers/@dataModals/post';
+import AvatarPlaceHolder from '../assets/images/AvatarPlaceHolder.jpeg';
 
 export const useStyles = makeStyles({
   contentWrapper: {
@@ -19,30 +20,27 @@ export const useStyles = makeStyles({
   },
 });
 
-const Posts: FC<{ id: number }> = ({ id }) => {
+const Post: FC<{ data: IPostData }> = ({ data }) => {
   const classes = useStyles();
+  const { id, imageName, caption, createdDate, author } = data;
 
   return (
     <Box display='flex' justifyContent='center' alignItems='center' mb={5}>
       <Box width='45%' minWidth={300} maxWidth={600}>
         <Card>
           <CardHeader
-            avatar={<Avatar alt='example' src={Avatar1} />}
-            title='Celia'
+            avatar={<Avatar alt='example' src={AvatarPlaceHolder} />}
+            title={author.name}
             titleTypographyProps={{ className: classes.userName }}
           />
-          <CardMedia component='img' width='100%' image={Avatar1} alt='example' />
+          <CardMedia component='img' width='100%' image={`${process.env.REACT_APP_API}/${imageName}`} alt='example' />
           <CardContent className={classes.contentWrapper}>
             <Typography variant='body2' component='span'>
-              <Truncate
-                id={id}
-                author='Celia'
-                text='This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.'
-              />
+              <Truncate id={id} author={author.name} text={caption} />
             </Typography>
             <Box mt={1}>
               <Typography variant='caption' component={'span'} color='text.secondary'>
-                23 Oct 2021
+                {createdDate}
               </Typography>
             </Box>
           </CardContent>
@@ -52,4 +50,4 @@ const Posts: FC<{ id: number }> = ({ id }) => {
   );
 };
 
-export default Posts;
+export default Post;

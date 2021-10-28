@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Container } from '@mui/material';
 
@@ -21,7 +21,7 @@ const App: FC = () => {
 
   useEffect(() => {
     dispatch(verifyToken());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>

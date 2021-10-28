@@ -1,24 +1,16 @@
 import { FC } from 'react';
-import { useDispatch } from 'react-redux';
-import { Box, IconButton, Avatar } from '@mui/material';
+import { Box, Avatar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import LogoutIcon from '@mui/icons-material/Logout';
 
-import CreatePost from './CreatePost';
-import { logout } from '../store/actions/authActions';
+import PostCreator from './PostCreator';
 import Avatar1 from '../assets/images/Avatar1.jpeg';
 
 export const useStyles = makeStyles({
   title: { fontFamily: 'Dancing Script', color: '#6C1D79' },
 });
 
-const Header: FC = () => {
+const Header: FC<{ toggleDrawer: () => void }> = ({ toggleDrawer }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const onLogoutClick = () => {
-    dispatch(logout());
-  };
 
   return (
     <Box
@@ -33,14 +25,11 @@ const Header: FC = () => {
       padding='0 30px'
       bgcolor='#FFFFFF'
       borderBottom='1px solid #C0C0C0'
-      zIndex={10000}
+      zIndex={1000}
     >
       <h1 className={classes.title}>InstaPic</h1>
-      <CreatePost />
-      <Box display='flex' alignItems='center' width={100} justifyContent='space-between'>
-        <IconButton onClick={onLogoutClick} color='secondary' size='small'>
-          <LogoutIcon fontSize='large' />
-        </IconButton>
+      <PostCreator />
+      <Box onClick={toggleDrawer} display='flex' alignItems='center'>
         <Avatar alt='example' src={Avatar1} />
       </Box>
     </Box>
