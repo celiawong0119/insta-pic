@@ -93,6 +93,9 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
         e.preventDefault();
         alert('Cannot upload files more than 1');
         return;
+      } else if (e.target.files[0].size > 2097152) {
+        alert('File should not be larger than 2MB!');
+        return;
       }
       setImageName(URL.createObjectURL(e.target.files[0]));
       setImageFile(e.target.files[0]);
