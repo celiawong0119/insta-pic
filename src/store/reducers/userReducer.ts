@@ -1,5 +1,5 @@
 import { IUserData } from './@dataModals/auth';
-import { LOGIN_ACTIONS, SIGNUP_ACTIONS, LOGOUT_ACTIONS } from '../actions/authActionTypes';
+import { LOGIN_ACTIONS, SIGNUP_ACTIONS, LOGOUT_ACTIONS, VERIFY_TOKEN_ACTIONS } from '../actions/authActionTypes';
 
 interface IUserReducerState {
   loading: boolean;
@@ -47,6 +47,19 @@ const userReducer = (state = initialState, action: any): IUserReducerState => {
       return {
         ...initialState,
       };
+
+    case VERIFY_TOKEN_ACTIONS.START:
+      return { ...initialState };
+
+    case VERIFY_TOKEN_ACTIONS.SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        error: undefined,
+      };
+
+    case VERIFY_TOKEN_ACTIONS.FAILED:
+      return { ...state, error: action.payload };
 
     default:
       return state;
