@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Box, Avatar, Card, CardHeader, CardMedia, CardContent, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -22,7 +23,12 @@ export const useStyles = makeStyles({
 
 const Post: FC<{ data: IPostData }> = ({ data }) => {
   const classes = useStyles();
+  const history = useHistory();
   const { id, imageName, caption, createdDate, author } = data;
+
+  const onNameClick = () => {
+    history.push(`/profile/${author.userId}`);
+  };
 
   return (
     <Box display='flex' justifyContent='center' alignItems='center' mb={5}>
@@ -31,6 +37,8 @@ const Post: FC<{ data: IPostData }> = ({ data }) => {
           <CardHeader
             avatar={<Avatar alt='example' src={AvatarPlaceHolder} />}
             title={author.name}
+            onClick={onNameClick}
+            style={{ cursor: 'pointer' }}
             titleTypographyProps={{ className: classes.userName }}
           />
           <CardMedia component='img' width='100%' image={`${process.env.REACT_APP_API}/${imageName}`} alt='example' />

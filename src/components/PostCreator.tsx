@@ -4,27 +4,17 @@ import { Box, TextField, Button, Dialog, DialogTitle, IconButton, styled } from 
 import { makeStyles } from '@mui/styles';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 
-import { createPost } from '../store/actions/postActions';
+import { createPost, getPosts } from '../store/actions/postActions';
 import { RootState } from '../store/reducers';
-import { useMediaQuery } from '../hooks/useMediaQuery';
 
 const useStyles = makeStyles({
-  textWrapper: {
-    backgroundColor: '#EFF2F5',
-    borderRadius: 50,
-    height: 40,
-    display: 'flex',
-    alignItems: 'center',
-    marginLeft: 10,
-    cursor: 'pointer',
+  iconButton: {
+    padding: 0,
     '&:hover': {
-      backgroundColor: '#EBEBEC',
+      backgroundColor: 'transparent',
     },
-  },
-  text: {
-    color: '#8A8A8A',
-    marginLeft: 20,
   },
   dialogTitle: {
     textAlign: 'center',
@@ -103,18 +93,17 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
   };
 
   const handleClose = () => {
-    console.log('start');
     onClose();
     setCaption('');
     setImageName('');
     setImageFile(undefined);
-    console.log('finish');
   };
 
   const onPostClick = () => {
     if (data && imageFile && caption) {
       dispatch(createPost({ userId: data.id, imageFile: imageFile, caption: caption }));
       handleClose();
+      // dispatch(getPosts({}));
     } else {
       alert('Create post failed');
       handleClose();
@@ -172,10 +161,8 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
 
 const PostCreator: FC = () => {
   const classes = useStyles();
-
   const [open, setOpen] = useState(false);
-
-  const isMobile = useMediaQuery('(max-width: 550px)');
+  // const isMobile = useMediaQuery('(max-width: 550px)');
 
   const onClickOpen = () => {
     setOpen(true);
@@ -186,25 +173,13 @@ const PostCreator: FC = () => {
   };
 
   return (
-    // <Box width='100%' display='flex' justifyContent='center'>
     <Box>
-      {isMobile ? (
-        <Box>
-          <Box onClick={onClickOpen}>
-            <IconButton color='secondary' size='small'>
-              <AddAPhotoIcon />
-            </IconButton>
-          </Box>
-          <CreatePostDialog open={open} onClose={onClose} />
-        </Box>
-      ) : (
-        <Box width='30%' minWidth={250}>
-          <Box onClick={onClickOpen} className={classes.textWrapper}>
-            <p className={classes.text}>What's on your mind?</p>
-          </Box>
-          <CreatePostDialog open={open} onClose={onClose} />
-        </Box>
-      )}
+      <Box onClick={onClickOpen}>
+        <IconButton color='secondary' component='span' className={classes.iconButton}>
+          {open ? <AddAPhotoIcon /> : <AddAPhotoOutlinedIcon />}
+        </IconButton>
+      </Box>
+      <CreatePostDialog open={open} onClose={onClose} />
     </Box>
   );
 };

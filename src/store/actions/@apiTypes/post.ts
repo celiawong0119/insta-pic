@@ -5,7 +5,7 @@ export interface IApiCreatePostPayload {
 }
 
 export interface IApiGetPostPayload {
-  userId: number;
+  userId?: string;
   sortByTime?: 'asc' | 'desc';
   pageNo?: number;
 }

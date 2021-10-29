@@ -5,10 +5,11 @@ import { Box } from '@mui/material';
 
 import Header from '../../components/Header';
 import Post from '../../components/Post';
-import { RootState } from '../../store/reducers';
 import { getPosts } from '../../store/actions/postActions';
+import { RootState } from '../../store/reducers';
+import { useParams } from 'react-router';
 
-interface HomeProps {
+interface ProfileProps {
   sortDesc: boolean;
   toggleSort: () => void;
   togglePage: () => void;
@@ -17,22 +18,22 @@ interface HomeProps {
   isProfilePage: boolean;
 }
 
-const Home: FC<HomeProps> = ({ sortDesc, toggleSort, togglePage, setPath, isHomePage, isProfilePage }) => {
+const Profile: FC<ProfileProps> = ({ sortDesc, toggleSort, togglePage, setPath, isHomePage, isProfilePage }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state: RootState) => state.posts);
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     togglePage();
   }, [togglePage, location.pathname]);
 
   useEffect(() => {
-    dispatch(getPosts({ sortByTime: sortDesc ? 'desc' : 'asc' }));
-  }, [sortDesc, dispatch]);
+    dispatch(getPosts({ userId: id, sortByTime: sortDesc ? 'desc' : 'asc' }));
+  }, [id, sortDesc, dispatch]);
 
   useEffect(() => {
     setPath(location.pathname);
-    console.log(location.pathname);
   }, [location, setPath]);
 
   return (
@@ -49,4 +50,4 @@ const Home: FC<HomeProps> = ({ sortDesc, toggleSort, togglePage, setPath, isHome
   );
 };
 
-export default Home;
+export default Profile;

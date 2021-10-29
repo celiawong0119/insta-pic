@@ -107,6 +107,7 @@ const LogInOrSignUp: FC<IProps> = ({ variant }) => {
       />
       <TextField
         label='Password'
+        type='password'
         onKeyPress={onEnter}
         variant='outlined'
         className={classes.inputBox}
