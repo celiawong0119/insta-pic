@@ -24,10 +24,6 @@ const App: FC = () => {
   const { data: user } = useSelector((state: RootState) => state.user);
   const [sortDesc, setSortDesc] = useState<boolean>(true);
 
-  const [path, setPath] = useState<string>('');
-  const [isHomePage, setIsHomePage] = useState<boolean>(false);
-  const [isProfilePage, setIsProfilePage] = useState<boolean>(false);
-
   useEffect(() => {
     const jwtToken = getAuthTokenFromCookie();
     if (jwtToken && !user) {
@@ -39,42 +35,15 @@ const App: FC = () => {
     setSortDesc(!sortDesc);
   };
 
-  const togglePage = () => {
-    if (path.includes('/home')) {
-      setIsHomePage(true);
-      setIsProfilePage(false);
-    } else if (path.includes('/profile')) {
-      setIsHomePage(false);
-      setIsProfilePage(true);
-    } else {
-      setIsHomePage(false);
-      setIsProfilePage(false);
-    }
-  };
-
   return (
     <Router>
       <Container>
         <Switch>
           <PrivateRoute path='/home'>
-            <Home
-              sortDesc={sortDesc}
-              toggleSort={toggleSort}
-              togglePage={togglePage}
-              setPath={setPath}
-              isHomePage={isHomePage}
-              isProfilePage={isProfilePage}
-            />
+            <Home sortDesc={sortDesc} toggleSort={toggleSort} />
           </PrivateRoute>
           <PrivateRoute path='/profile/:id'>
-            <Profile
-              sortDesc={sortDesc}
-              toggleSort={toggleSort}
-              togglePage={togglePage}
-              setPath={setPath}
-              isHomePage={isHomePage}
-              isProfilePage={isProfilePage}
-            />
+            <Profile sortDesc={sortDesc} toggleSort={toggleSort} />
           </PrivateRoute>
           <Route path='/signup'>
             <LogInOrSignUp variant='signup' />

@@ -6,8 +6,9 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 
-import { createPost, getPosts } from '../store/actions/postActions';
+import { createPost } from '../store/actions/postActions';
 import { RootState } from '../store/reducers';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles({
   iconButton: {
@@ -57,17 +58,19 @@ const useStyles = makeStyles({
 interface IDialog {
   open: boolean;
   onClose: () => void;
+  sortDesc: boolean;
 }
 
 const Input = styled('input')({
   display: 'none',
 });
 
-const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
+const CreatePostDialog: FC<IDialog> = ({ open, onClose, sortDesc }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state: RootState) => state.posts);
-  const { data } = useSelector((state: RootState) => state.user);
+  const location = useLocation();
+  const { loading } = useSelector((state: RootState) => state.posts);
+  const { data: user } = useSelector((state: RootState) => state.user);
 
   const [caption, setCaption] = useState<string>('');
   const [imageName, setImageName] = useState<string>('');
@@ -78,7 +81,8 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
   };
 
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+    if (e.target.files && e.target.files.length > 0) {
+      console.log(e.target.files);
       if (Array.from(e.target.files).length > 1) {
         e.preventDefault();
         alert('Cannot upload files more than 1');
@@ -100,10 +104,21 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
   };
 
   const onPostClick = () => {
-    if (data && imageFile && caption) {
-      dispatch(createPost({ userId: data.id, imageFile: imageFile, caption: caption }));
+    if (user && imageFile && caption) {
+      const isHomePage = location.pathname === '/home';
+      const isMyProfile = location.pathname === `/profile/${user.id}`;
+      const needRefreshAfterCreatePost = isHomePage || isMyProfile;
+      dispatch(
+        createPost({
+          userId: user.id,
+          imageFile: imageFile,
+          caption: caption,
+          refreshOptions: needRefreshAfterCreatePost
+            ? { userId: isMyProfile ? user.id : undefined, sortByTime: sortDesc ? 'desc' : 'asc' }
+            : undefined,
+        })
+      );
       handleClose();
-      // dispatch(getPosts({}));
     } else {
       alert('Create post failed');
       handleClose();
@@ -159,7 +174,7 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose }) => {
   );
 };
 
-const PostCreator: FC = () => {
+const PostCreator: FC<{ sortDesc: boolean }> = ({ sortDesc }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   // const isMobile = useMediaQuery('(max-width: 550px)');
@@ -179,7 +194,7 @@ const PostCreator: FC = () => {
           {open ? <AddAPhotoIcon /> : <AddAPhotoOutlinedIcon />}
         </IconButton>
       </Box>
-      <CreatePostDialog open={open} onClose={onClose} />
+      <CreatePostDialog open={open} onClose={onClose} sortDesc={sortDesc} />
     </Box>
   );
 };

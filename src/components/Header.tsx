@@ -1,19 +1,17 @@
-import { FC, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { FC, useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Box, IconButton } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Home, HomeOutlined, AccountCircle, AccountCircleOutlined } from '@mui/icons-material';
 
 import PostCreator from './PostCreator';
 import PopUpMenu from './PopUpMenu';
+import { RootState } from '../store/reducers';
 
 interface HeaderProps {
   sortDesc: boolean;
   toggleSort: () => void;
-  togglePage: () => void;
-  isHomePage: boolean;
-  isProfilePage: boolean;
 }
 
 export const useStyles = makeStyles({
@@ -26,11 +24,12 @@ export const useStyles = makeStyles({
   },
 });
 
-const Header: FC<HeaderProps> = ({ sortDesc, toggleSort, togglePage, isHomePage, isProfilePage }) => {
+const Header: FC<HeaderProps> = ({ sortDesc, toggleSort }) => {
   const classes = useStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
+  const location = useLocation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { data: user } = useSelector((state: RootState) => state.user);
   const open = Boolean(anchorEl);
 
   const onProfileIconClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -42,7 +41,6 @@ const Header: FC<HeaderProps> = ({ sortDesc, toggleSort, togglePage, isHomePage,
 
   const onHomeClick = () => {
     history.push('/home');
-    togglePage();
   };
 
   return (
@@ -65,11 +63,11 @@ const Header: FC<HeaderProps> = ({ sortDesc, toggleSort, togglePage, isHomePage,
       </h1>
       <Box display='flex' width={100} justifyContent='space-between'>
         <IconButton onClick={onHomeClick} color='secondary' component='span' className={classes.iconButton}>
-          {isHomePage ? <Home /> : <HomeOutlined />}
+          {location.pathname === '/home' ? <Home /> : <HomeOutlined />}
         </IconButton>
-        <PostCreator />
+        <PostCreator sortDesc={sortDesc} />
         <IconButton onClick={onProfileIconClick} color='secondary' component='span' className={classes.iconButton}>
-          {isProfilePage ? <AccountCircle /> : <AccountCircleOutlined />}
+          {location.pathname === `/profile/${user?.id}` ? <AccountCircle /> : <AccountCircleOutlined />}
         </IconButton>
       </Box>
       <PopUpMenu
@@ -78,7 +76,6 @@ const Header: FC<HeaderProps> = ({ sortDesc, toggleSort, togglePage, isHomePage,
         onMenuClose={onMenuClose}
         sortDesc={sortDesc}
         toggleSort={toggleSort}
-        togglePage={togglePage}
       />
     </Box>
   );

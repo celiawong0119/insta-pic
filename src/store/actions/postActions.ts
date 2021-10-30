@@ -1,10 +1,11 @@
 import { AppThunk } from '../../libAddons/redux-thunk';
 import { IApiCreatePostPayload, IApiGetPostPayload } from './@apiTypes/post';
-import { CREATE_POST_ACTIONS, GET_POST_ACTIONS } from './postActionTypes';
+import { CREATE_POST_ACTIONS, GET_POST_ACTIONS, GET_MORE_POST_ACTIONS } from './postActionTypes';
 import { postRequest, getRequest } from '../../libAddons/axios';
+import { fetchPost } from '../../services/postServices';
 
 export const createPost =
-  ({ userId, imageFile, caption }: IApiCreatePostPayload): AppThunk =>
+  ({ userId, imageFile, caption, refreshOptions }: IApiCreatePostPayload): AppThunk =>
   async (dispatch) => {
     dispatch({ type: CREATE_POST_ACTIONS.START });
     try {
@@ -34,6 +35,10 @@ export const createPost =
         });
 
         dispatch({ type: CREATE_POST_ACTIONS.SUCCESS, payload: response.data.newPostId });
+        if (refreshOptions) {
+          const { userId, sortByTime } = refreshOptions;
+          dispatch(getPosts({ userId: userId ? userId.toString() : undefined, sortByTime: sortByTime }));
+        }
       } else {
         dispatch({ type: CREATE_POST_ACTIONS.FAILED });
       }
@@ -43,24 +48,21 @@ export const createPost =
   };
 
 export const getPosts =
-  ({ userId, sortByTime = 'desc', pageNo = 1 }: IApiGetPostPayload): AppThunk =>
+  ({ userId, sortByTime = 'desc', pageNo = 1, tailId }: IApiGetPostPayload): AppThunk =>
   async (dispatch) => {
-    dispatch({ type: GET_POST_ACTIONS.START });
+    const action =
+      pageNo > 1
+        ? {
+            start: GET_MORE_POST_ACTIONS.START,
+            success: GET_MORE_POST_ACTIONS.SUCCESS,
+            failed: GET_MORE_POST_ACTIONS.FAILED,
+          }
+        : { start: GET_POST_ACTIONS.START, success: GET_POST_ACTIONS.SUCCESS, failed: GET_POST_ACTIONS.FAILED };
+    dispatch({ type: action.start });
     try {
-      const response = await getRequest<
-        IApiGetPostPayload,
-        { postId: number; image: string; caption: string; createdDate: number }[]
-      >({
-        url: '/api/posts',
-        params: {
-          userId: userId,
-          sortByTime: sortByTime,
-          pageNo: pageNo,
-        },
-      });
-
-      dispatch({ type: GET_POST_ACTIONS.SUCCESS, payload: response.data });
+      const response = await fetchPost({ userId, sortByTime, pageNo, tailId });
+      dispatch({ type: action.success, payload: { posts: response.data, pageNo: pageNo } });
     } catch (err) {
-      dispatch({ type: GET_POST_ACTIONS.FAILED });
+      dispatch({ type: action.failed });
     }
   };

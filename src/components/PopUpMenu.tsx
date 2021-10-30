@@ -14,19 +14,17 @@ interface MenuProps {
   onMenuClose: () => void;
   sortDesc: boolean;
   toggleSort: () => void;
-  togglePage: () => void;
 }
 
 export const useStyles = makeStyles({});
 
-const PopUpMenu: FC<MenuProps> = ({ anchorEl, open, onMenuClose, sortDesc, toggleSort, togglePage }) => {
+const PopUpMenu: FC<MenuProps> = ({ anchorEl, open, onMenuClose, sortDesc, toggleSort }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { data: user } = useSelector((state: RootState) => state.user);
 
   const onProfileClick = () => {
     history.push(`/profile/${user?.id}`);
-    togglePage();
   };
 
   const onLogoutClick = () => {

@@ -1,7 +1,8 @@
-import { FC } from 'react';
+import { FC, useEffect, memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, Avatar, Card, CardHeader, CardMedia, CardContent, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import LazyLoad from 'react-lazyload';
 
 import Truncate from './Truncate';
 import { IPostData } from '../store/reducers/@dataModals/post';
@@ -21,7 +22,7 @@ export const useStyles = makeStyles({
   },
 });
 
-const Post: FC<{ data: IPostData }> = ({ data }) => {
+const Post: FC<{ data: IPostData }> = memo(({ data }) => {
   const classes = useStyles();
   const history = useHistory();
   const { id, imageName, caption, createdDate, author } = data;
@@ -29,6 +30,10 @@ const Post: FC<{ data: IPostData }> = ({ data }) => {
   const onNameClick = () => {
     history.push(`/profile/${author.userId}`);
   };
+
+  useEffect(() => {
+    console.log(data.id, 'rerendered');
+  });
 
   return (
     <Box display='flex' justifyContent='center' alignItems='center' mb={5}>
@@ -41,7 +46,14 @@ const Post: FC<{ data: IPostData }> = ({ data }) => {
             style={{ cursor: 'pointer' }}
             titleTypographyProps={{ className: classes.userName }}
           />
-          <CardMedia component='img' width='100%' image={`${process.env.REACT_APP_API}/${imageName}`} alt='example' />
+          <LazyLoad>
+            <CardMedia
+              component='img'
+              width='100%'
+              image={`${process.env.REACT_APP_API}/${imageName}`}
+              alt='Post image'
+            />
+          </LazyLoad>
           <CardContent className={classes.contentWrapper}>
             <Typography variant='body2' component='span'>
               <Truncate id={id} author={author.name} text={caption} />
@@ -56,6 +68,6 @@ const Post: FC<{ data: IPostData }> = ({ data }) => {
       </Box>
     </Box>
   );
-};
+});
 
 export default Post;
