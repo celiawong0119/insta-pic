@@ -8,6 +8,15 @@ const PrivateRoute: FC<{
 }> = ({ children, path }) => {
   const history = useHistory();
 
+  // disallow user to access home back with "back" button
+  useEffect(() => {
+    const jwtToken = getAuthTokenFromCookie();
+    if (!jwtToken) {
+      history.push('/login');
+    }
+  }, [history]);
+
+  // kick user out when they click logout
   const onCookieChange = () => {
     const jwtToken = getAuthTokenFromCookie();
     if (!jwtToken) {

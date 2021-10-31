@@ -45,11 +45,11 @@ const Header: FC<HeaderProps> = ({ sortDesc, toggleSort }) => {
     history.push('/home');
   };
 
-  const findPathUserId = () => {
+  const findPathUserId = (): string | undefined => {
     if (location.pathname.includes('/profile/')) {
       const pathUserId = location.pathname.replace('/profile/', '');
       const found = posts.find((i) => i.id === parseInt(pathUserId));
-      return found?.author;
+      return found?.author.name;
     }
   };
 
@@ -72,7 +72,7 @@ const Header: FC<HeaderProps> = ({ sortDesc, toggleSort }) => {
         InstaPic
       </h1>
       {location.pathname.includes('/profile/') ? (
-        <Typography variant='h6' component='span'>
+        <Typography variant='body1' component='span' color='text.secondary'>
           {findPathUserId()}
         </Typography>
       ) : null}

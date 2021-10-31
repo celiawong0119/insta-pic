@@ -39,7 +39,7 @@ const InfiniteScrollComponent: FC<InfiniteScrollProps> = ({ currentUserId, sortD
       dataLength={posts.length}
       next={getMorePosts}
       hasMore={hasMore}
-      loader={<h4>Loading...</h4>}
+      loader={<div></div>}
       endMessage={
         <p style={{ textAlign: 'center' }}>
           <b>No more post :)</b>

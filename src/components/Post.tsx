@@ -28,7 +28,7 @@ const Post: FC<{ data: IPostData }> = memo(({ data }) => {
   const { id, imageName, caption, createdTime, author } = data;
 
   const t = new Date(createdTime * 1000);
-  const formattedDatetime = new Intl.DateTimeFormat('en-US', {
+  const formattedDatetime = new Intl.DateTimeFormat('zh-HK', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
