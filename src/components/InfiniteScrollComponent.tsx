@@ -42,7 +42,7 @@ const InfiniteScrollComponent: FC<InfiniteScrollProps> = ({ currentUserId, sortD
       loader={<h4>Loading...</h4>}
       endMessage={
         <p style={{ textAlign: 'center' }}>
-          <b>Yay! You have seen it all</b>
+          <b>No more post :)</b>
         </p>
       }
       scrollThreshold={1}

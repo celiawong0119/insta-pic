@@ -34,7 +34,7 @@ const postReducer = (state = initialState, action: any): IPostReducerState => {
       return { ...initialState, loading: true };
 
     case GET_POST_ACTIONS.SUCCESS:
-      return { ...initialState, data: action.payload.posts };
+      return { ...initialState, data: action.payload.posts, hasMore: action.payload.posts.length < 5 ? false : true };
 
     case GET_POST_ACTIONS.FAILED:
       return { ...initialState, error: 'Failed to get posts' };
@@ -48,7 +48,7 @@ const postReducer = (state = initialState, action: any): IPostReducerState => {
         ...state,
         data: [...state.data, ...action.payload.posts],
         latestPage: action.payload.posts.length > 0 ? action.payload.pageNo : state.latestPage,
-        hasMore: action.payload.posts.length === 0 ? false : true,
+        hasMore: action.payload.posts.length < 5 ? false : true,
         error: undefined,
       };
 
