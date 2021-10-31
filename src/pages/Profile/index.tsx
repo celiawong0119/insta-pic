@@ -29,5 +29,3 @@ const Profile: FC<ProfileProps> = ({ sortDesc, toggleSort }) => {
 };
 
 export default Profile;
-
-// {user ? (<Box>{isMedium ? (<Box>{isSmall ? (<Box></Box>) : (<Box></Box>)}</Box>) : <Box></Box>}</Box>) : null}
