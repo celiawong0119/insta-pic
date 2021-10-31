@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Home, HomeOutlined, AccountCircle, AccountCircleOutlined } from '@mui/icons-material';
 
@@ -30,17 +30,27 @@ const Header: FC<HeaderProps> = ({ sortDesc, toggleSort }) => {
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { data: user } = useSelector((state: RootState) => state.user);
+  const { data: posts } = useSelector((state: RootState) => state.posts);
   const open = Boolean(anchorEl);
 
   const onProfileIconClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const onMenuClose = () => {
     setAnchorEl(null);
   };
 
   const onHomeClick = () => {
     history.push('/home');
+  };
+
+  const findPathUserId = () => {
+    if (location.pathname.includes('/profile/')) {
+      const pathUserId = location.pathname.replace('/profile/', '');
+      const found = posts.find((i) => i.id === parseInt(pathUserId));
+      return found?.author;
+    }
   };
 
   return (
@@ -61,6 +71,11 @@ const Header: FC<HeaderProps> = ({ sortDesc, toggleSort }) => {
       <h1 onClick={onHomeClick} className={classes.title}>
         InstaPic
       </h1>
+      {location.pathname.includes('/profile/') ? (
+        <Typography variant='h6' component='span'>
+          {findPathUserId()}
+        </Typography>
+      ) : null}
       <Box display='flex' width={100} justifyContent='space-between'>
         <IconButton onClick={onHomeClick} color='secondary' component='span' className={classes.iconButton}>
           {location.pathname === '/home' ? <Home /> : <HomeOutlined />}

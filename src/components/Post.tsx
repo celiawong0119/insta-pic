@@ -1,4 +1,4 @@
-import { FC, useEffect, memo } from 'react';
+import { FC, memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, Avatar, Card, CardHeader, CardMedia, CardContent, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -25,15 +25,21 @@ export const useStyles = makeStyles({
 const Post: FC<{ data: IPostData }> = memo(({ data }) => {
   const classes = useStyles();
   const history = useHistory();
-  const { id, imageName, caption, createdDate, author } = data;
+  const { id, imageName, caption, createdTime, author } = data;
+
+  const t = new Date(createdTime * 1000);
+  const formattedDatetime = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).format(t);
 
   const onNameClick = () => {
     history.push(`/profile/${author.userId}`);
   };
-
-  useEffect(() => {
-    console.log(data.id, 'rerendered');
-  });
 
   return (
     <Box display='flex' justifyContent='center' alignItems='center' mb={5}>
@@ -59,8 +65,8 @@ const Post: FC<{ data: IPostData }> = memo(({ data }) => {
               <Truncate id={id} author={author.name} text={caption} />
             </Typography>
             <Box mt={1}>
-              <Typography variant='caption' component={'span'} color='text.secondary'>
-                {createdDate}
+              <Typography variant='caption' component='span' color='text.secondary'>
+                {formattedDatetime}
               </Typography>
             </Box>
           </CardContent>

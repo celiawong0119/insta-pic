@@ -2,6 +2,6 @@ export interface IPostData {
   id: number;
   imageName: string;
   caption: string;
-  createdDate: number;
+  createdTime: number;
   author: { userId: number; name: string };
 }
