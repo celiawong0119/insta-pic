@@ -54,6 +54,7 @@ const App: FC = () => {
           <Route path='/'>
             <Redirect to='/login' />
           </Route>
+          <Redirect from='*' to='/' />
         </Switch>
       </Container>
     </Router>
