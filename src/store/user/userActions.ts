@@ -3,9 +3,9 @@ import { AxiosError } from 'axios';
 import { AppThunk } from '../../libAddons/redux-thunk';
 import { setAuthTokenToCookie, clearAuthTokenInCookie } from '../../libAddons/universal-cookies';
 import { postRequest } from '../../libAddons/axios';
-import { IApiLoginOrSignUpPayload } from './@apiTypes/auth';
-import { IUserData } from '../reducers/@dataModals/auth';
-import { LOGIN_ACTIONS, SIGNUP_ACTIONS, LOGOUT_ACTIONS, VERIFY_TOKEN_ACTIONS } from './authActionTypes';
+import { IApiLoginOrSignUpPayload } from './userApiTypes';
+import { IUserData } from './userModal';
+import { LOGIN_ACTIONS, SIGNUP_ACTIONS, LOGOUT_ACTIONS, VERIFY_TOKEN_ACTIONS } from './userActionTypes';
 
 export const login =
   ({ username, password }: IApiLoginOrSignUpPayload): AppThunk =>

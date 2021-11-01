@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { getRequest } from '../libAddons/axios';
-import { IApiGetPostPayload } from '../store/actions/@apiTypes/post';
-import { IPostData } from '../store/reducers/@dataModals/post';
+import { IApiGetPostPayload } from '../store/post/postApiTypes';
+import { IPostData } from '../store/post/postModal';
 
 interface IFetchPost {
   userId?: string;

@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 
 import Header from '../../components/Header';
 import InfiniteScrollComponent from '../../components/InfiniteScrollComponent';
-import { getPosts } from '../../store/actions/postActions';
+import { getPosts } from '../../store/post/postActions';
 import { useParams } from 'react-router';
 interface ProfileProps {
   sortDesc: boolean;

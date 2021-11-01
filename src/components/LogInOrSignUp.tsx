@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, TextField, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { login, signup } from '../store/actions/authActions';
-import { RootState } from '../store/reducers';
+import { login, signup } from '../store/user/userActions';
+import { RootState } from '../store';
 import { getAuthTokenFromCookie } from '../libAddons/universal-cookies';
 
 interface IProps {

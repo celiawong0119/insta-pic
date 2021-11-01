@@ -1,5 +1,5 @@
 import { AppThunk } from '../../libAddons/redux-thunk';
-import { IApiCreatePostPayload, IApiGetPostPayload } from './@apiTypes/post';
+import { IApiCreatePostPayload, IApiGetPostPayload } from './postApiTypes';
 import { CREATE_POST_ACTIONS, GET_POST_ACTIONS, GET_MORE_POST_ACTIONS } from './postActionTypes';
 import { postRequest } from '../../libAddons/axios';
 import { fetchPost } from '../../services/postServices';

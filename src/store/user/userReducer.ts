@@ -1,6 +1,6 @@
-import { IUserData } from './@dataModals/auth';
-import { LOGIN_ACTIONS, SIGNUP_ACTIONS, LOGOUT_ACTIONS, VERIFY_TOKEN_ACTIONS } from '../actions/authActionTypes';
-import { CREATE_POST_ACTIONS } from '../actions/postActionTypes';
+import { IUserData } from './userModal';
+import { LOGIN_ACTIONS, SIGNUP_ACTIONS, LOGOUT_ACTIONS, VERIFY_TOKEN_ACTIONS } from './userActionTypes';
+import { CREATE_POST_ACTIONS } from '../post/postActionTypes';
 
 interface IUserReducerState {
   loading: boolean;

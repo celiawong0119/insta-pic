@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { RootState } from '../store/reducers';
+import { RootState } from '../store';
 import Post from './Post';
-import { getPosts } from '../store/actions/postActions';
+import { getPosts } from '../store/post/postActions';
 
 interface InfiniteScrollProps {
   sortDesc: boolean;

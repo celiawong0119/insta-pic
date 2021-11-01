@@ -1,12 +1,10 @@
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Box } from '@mui/material';
 
 import Header from '../../components/Header';
-import Post from '../../components/Post';
 import InfiniteScrollComponent from '../../components/InfiniteScrollComponent';
-import { RootState } from '../../store/reducers';
-import { getPosts } from '../../store/actions/postActions';
+import { getPosts } from '../../store/post/postActions';
 
 interface HomeProps {
   sortDesc: boolean;

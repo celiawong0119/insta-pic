@@ -8,9 +8,9 @@ import PrivateRoute from './components/PrivateRoute';
 import LogInOrSignUp from './components/LogInOrSignUp';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-import { verifyToken } from './store/actions/authActions';
+import { verifyToken } from './store/user/userActions';
 import { getAuthTokenFromCookie } from './libAddons/universal-cookies';
-import { RootState } from './store/reducers';
+import { RootState } from './store';
 
 const setAxiosDefault = () => {
   axios.defaults.baseURL = process.env.REACT_APP_API;

@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles';
 import LazyLoad from 'react-lazyload';
 
 import Truncate from './Truncate';
-import { IPostData } from '../store/reducers/@dataModals/post';
+import { IPostData } from '../store/post/postModal';
 import AvatarPlaceHolder from '../assets/images/AvatarPlaceHolder.jpeg';
 
 export const useStyles = makeStyles({

@@ -1,5 +1,5 @@
-import { IPostData } from './@dataModals/post';
-import { CREATE_POST_ACTIONS, GET_MORE_POST_ACTIONS, GET_POST_ACTIONS } from '../actions/postActionTypes';
+import { IPostData } from './postModal';
+import { CREATE_POST_ACTIONS, GET_MORE_POST_ACTIONS, GET_POST_ACTIONS } from './postActionTypes';
 
 interface IPostReducerState {
   loading: boolean;

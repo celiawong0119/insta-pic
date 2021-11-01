@@ -7,7 +7,7 @@ import { Home, HomeOutlined, AccountCircle, AccountCircleOutlined } from '@mui/i
 
 import PostCreator from './PostCreator';
 import PopUpMenu from './PopUpMenu';
-import { RootState } from '../store/reducers';
+import { RootState } from '../store';
 
 interface HeaderProps {
   sortDesc: boolean;
