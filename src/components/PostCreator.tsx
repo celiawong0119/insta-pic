@@ -82,7 +82,6 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose, sortDesc }) => {
 
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      console.log(e.target.files);
       if (Array.from(e.target.files).length > 1) {
         e.preventDefault();
         alert('Cannot upload files more than 1');
@@ -177,7 +176,6 @@ const CreatePostDialog: FC<IDialog> = ({ open, onClose, sortDesc }) => {
 const PostCreator: FC<{ sortDesc: boolean }> = ({ sortDesc }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  // const isMobile = useMediaQuery('(max-width: 550px)');
 
   const onClickOpen = () => {
     setOpen(true);

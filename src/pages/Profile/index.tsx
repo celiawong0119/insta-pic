@@ -16,7 +16,6 @@ const Profile: FC<ProfileProps> = ({ sortDesc, toggleSort }) => {
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    console.log('post fetch first page');
     dispatch(getPosts({ userId: id, sortByTime: sortDesc ? 'desc' : 'asc' }));
   }, [id, sortDesc, dispatch]);
 
