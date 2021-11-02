@@ -36,6 +36,8 @@ http://206.189.144.57
 
 ## Installation and run frontend on localhost:3000
 
-### `yarn install` / `npm install`
+### `yarn install && yarn start`
 
-### `yarn start` / `npm start`
+or
+
+### `npm install && npm start`
