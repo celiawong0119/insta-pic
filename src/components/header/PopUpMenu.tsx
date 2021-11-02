@@ -5,8 +5,8 @@ import { Box, Divider, ListItemIcon, Menu, MenuItem } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { AccountCircleOutlined, Logout, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 
-import { logout } from '../store/user/userActions';
-import { RootState } from '../store';
+import { logout } from '../../store/user/userActions';
+import { RootState } from '../../store';
 
 interface MenuProps {
   anchorEl: null | HTMLElement;

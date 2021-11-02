@@ -6,8 +6,8 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 
-import { createPost } from '../store/post/postActions';
-import { RootState } from '../store';
+import { createPost } from '../../store/post/postActions';
+import { RootState } from '../../store';
 import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles({

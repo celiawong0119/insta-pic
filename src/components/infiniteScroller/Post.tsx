@@ -5,8 +5,8 @@ import { makeStyles } from '@mui/styles';
 import LazyLoad from 'react-lazyload';
 
 import Truncate from './Truncate';
-import { IPostData } from '../store/post/postModal';
-import AvatarPlaceHolder from '../assets/images/AvatarPlaceHolder.jpeg';
+import { IPostData } from '../../store/post/postModal';
+import AvatarPlaceHolder from '../../assets/images/AvatarPlaceHolder.jpeg';
 
 export const useStyles = makeStyles({
   contentWrapper: {
@@ -46,7 +46,7 @@ const Post: FC<{ data: IPostData }> = memo(({ data }) => {
       <Box width='45%' minWidth={300} maxWidth={600}>
         <Card>
           <CardHeader
-            avatar={<Avatar alt='example' src={AvatarPlaceHolder} />}
+            avatar={<Avatar alt='post author' src={AvatarPlaceHolder} />}
             title={author.name}
             onClick={onNameClick}
             style={{ cursor: 'pointer' }}

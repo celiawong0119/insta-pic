@@ -2,8 +2,8 @@ import { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Box } from '@mui/material';
 
-import Header from '../../components/Header';
-import InfiniteScrollComponent from '../../components/InfiniteScrollComponent';
+import Header from '../../components/header/Header';
+import InfiniteScrollComponent from '../../components/infiniteScroller/InfiniteScrollComponent';
 import { getPosts } from '../../store/post/postActions';
 
 interface HomeProps {

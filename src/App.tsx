@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Container } from '@mui/material';
 
 import PrivateRoute from './components/PrivateRoute';
-import LogInOrSignUp from './components/LogInOrSignUp';
+import LogInOrSignUp from './pages/LogInOrSignUp';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import { verifyToken } from './store/user/userActions';
