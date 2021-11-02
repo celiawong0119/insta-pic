@@ -4,11 +4,21 @@
 
 http://206.189.144.57
 
+## Installation and run frontend on localhost:3000
+
+### `yarn install && yarn start`
+
+or
+
+### `npm install && npm start`
+
 ## Introduction
 
 Log in: http://206.189.144.57/login
 
 Sign up: http://206.189.144.57/signup
+
+Home: http://206.189.144.57
 
 Go to my profile: click profile icon -> My Profile
 
@@ -47,11 +57,3 @@ Pagination: scroll down to the end to fetch next page, pull to refresh
 
 - [x] Typescript
 - [x] JWT Token
-
-## Installation and run frontend on localhost:3000
-
-### `yarn install && yarn start`
-
-or
-
-### `npm install && npm start`
