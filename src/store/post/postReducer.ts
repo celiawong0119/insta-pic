@@ -5,6 +5,7 @@ interface IPostReducerState {
   loading: boolean;
   latestPage: number;
   data: IPostData[];
+  authorName: string | undefined;
   hasMore: boolean;
   error: string | undefined;
 }
@@ -13,6 +14,7 @@ const initialState: IPostReducerState = {
   loading: false,
   latestPage: 1,
   data: [],
+  authorName: undefined,
   hasMore: true,
   error: undefined,
 };
@@ -34,7 +36,12 @@ const postReducer = (state = initialState, action: any): IPostReducerState => {
       return { ...initialState, loading: true };
 
     case GET_POST_ACTIONS.SUCCESS:
-      return { ...initialState, data: action.payload.posts, hasMore: action.payload.posts.length < 5 ? false : true };
+      return {
+        ...initialState,
+        authorName: action.payload.authorName,
+        data: action.payload.posts,
+        hasMore: action.payload.posts.length < 5 ? false : true,
+      };
 
     case GET_POST_ACTIONS.FAILED:
       return { ...initialState, error: 'Failed to get posts' };
@@ -47,6 +54,7 @@ const postReducer = (state = initialState, action: any): IPostReducerState => {
       return {
         ...state,
         data: [...state.data, ...action.payload.posts],
+        authorName: action.payload.authorName,
         latestPage: action.payload.posts.length > 0 ? action.payload.pageNo : state.latestPage,
         hasMore: action.payload.posts.length < 5 ? false : true,
         error: undefined,

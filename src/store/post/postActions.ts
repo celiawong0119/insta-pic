@@ -61,7 +61,10 @@ export const getPosts =
     dispatch({ type: action.start });
     try {
       const response = await fetchPost({ userId, sortByTime, pageNo, tailId });
-      dispatch({ type: action.success, payload: { posts: response.data, pageNo: pageNo } });
+      dispatch({
+        type: action.success,
+        payload: { authorName: response.data.authorName, posts: response.data.posts, pageNo: pageNo },
+      });
     } catch (err) {
       dispatch({ type: action.failed });
     }

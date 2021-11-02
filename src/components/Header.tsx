@@ -30,7 +30,7 @@ const Header: FC<HeaderProps> = ({ sortDesc, toggleSort }) => {
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { data: user } = useSelector((state: RootState) => state.user);
-  const { data: posts } = useSelector((state: RootState) => state.posts);
+  const { authorName } = useSelector((state: RootState) => state.posts);
   const open = Boolean(anchorEl);
 
   const onProfileIconClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -43,14 +43,6 @@ const Header: FC<HeaderProps> = ({ sortDesc, toggleSort }) => {
 
   const onHomeClick = () => {
     history.push('/home');
-  };
-
-  const findPathUserId = (): string | undefined => {
-    if (location.pathname.includes('/profile/')) {
-      const pathUserId = location.pathname.replace('/profile/', '');
-      const found = posts.find((i) => i.id === parseInt(pathUserId));
-      return found?.author.name;
-    }
   };
 
   return (
@@ -73,7 +65,7 @@ const Header: FC<HeaderProps> = ({ sortDesc, toggleSort }) => {
       </h1>
       {location.pathname.includes('/profile/') ? (
         <Typography variant='body1' component='span' color='text.secondary'>
-          {findPathUserId()}
+          {authorName}
         </Typography>
       ) : null}
       <Box display='flex' width={100} justifyContent='space-between'>

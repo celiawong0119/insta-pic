@@ -10,13 +10,18 @@ interface IFetchPost {
   tailId?: number;
 }
 
+interface IFetchPostResponse {
+  authorName?: string;
+  posts: IPostData[];
+}
+
 export const fetchPost = ({
   userId,
   sortByTime = 'desc',
   pageNo,
   tailId,
-}: IFetchPost): Promise<AxiosResponse<IPostData[], any>> => {
-  return getRequest<IApiGetPostPayload, IPostData[]>({
+}: IFetchPost): Promise<AxiosResponse<IFetchPostResponse, any>> => {
+  return getRequest<IApiGetPostPayload, IFetchPostResponse>({
     url: '/api/posts',
     params: {
       userId: userId,
