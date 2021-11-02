@@ -17,7 +17,7 @@ http://206.189.144.57
 ### Optional
 
 - [x] Posts sorted by time
-- [x] Logged In users can view posts from a specific user
+- [x] Logged In users can view posts from a specific user (click on the user name on posts)
 - [x] Pagination
 - [x] Performance optimization (React memo, lazy load of image)
 - [x] Integrate with Redux and React Router
