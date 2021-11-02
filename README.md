@@ -7,10 +7,15 @@ http://206.189.144.57
 ## Introduction
 
 Log in: http://206.189.144.57/login
+
 Sign up: http://206.189.144.57/signup
+
 Go to my profile: click profile icon -> My Profile
+
 Toggle sort by date (asc/desc): click profile icon -> Date followed
+
 Filter by user: click author name on top of each post
+
 Pagination: scroll down to the end to fetch next page, pull to refresh
 
 ## Available features
