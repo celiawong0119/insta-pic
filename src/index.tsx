@@ -15,10 +15,7 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(
-  applyMiddleware(thunk)
-  // other store enhancers if any
-);
+const enhancer = composeEnhancers(applyMiddleware(thunk));
 
 export const store = createStore(rootReducer, undefined, enhancer);
 

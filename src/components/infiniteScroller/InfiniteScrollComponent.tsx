@@ -46,7 +46,7 @@ const InfiniteScrollComponent: FC<InfiniteScrollProps> = ({ currentUserId, sortD
         </p>
       }
       scrollThreshold={1}
-      // below props only if you need pull down functionality
+      // below props are for pull down to refresh
       refreshFunction={refreshPosts}
       pullDownToRefresh
       pullDownToRefreshThreshold={50}
