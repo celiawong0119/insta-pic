@@ -1,11 +1,11 @@
 import { AppThunk } from '../../libAddons/redux-thunk';
-import { IApiCreatePostPayload, IApiGetPostPayload } from './postApiTypes';
+import { ApiCreatePostPayload, ApiGetPostPayload } from './postApiTypes';
 import { CREATE_POST_ACTIONS, GET_POST_ACTIONS, GET_MORE_POST_ACTIONS } from './postActionTypes';
 import { postRequest } from '../../libAddons/axios';
 import { fetchPost } from '../../services/postServices';
 
 export const createPost =
-  ({ userId, imageFile, caption, refreshOptions }: IApiCreatePostPayload): AppThunk =>
+  ({ userId, imageFile, caption, refreshOptions }: ApiCreatePostPayload): AppThunk =>
   async (dispatch) => {
     dispatch({ type: CREATE_POST_ACTIONS.START });
     try {
@@ -23,7 +23,7 @@ export const createPost =
       if (imageName) {
         // create post
         const response = await postRequest<
-          Omit<IApiCreatePostPayload, 'imageFile'> & { imageName: string },
+          Omit<ApiCreatePostPayload, 'imageFile'> & { imageName: string },
           { newPostId: number }
         >({
           url: '/api/posts',
@@ -48,7 +48,7 @@ export const createPost =
   };
 
 export const getPosts =
-  ({ userId, sortByTime = 'desc', pageNo = 1, tailId }: IApiGetPostPayload): AppThunk =>
+  ({ userId, sortByTime = 'desc', pageNo = 1, tailId }: ApiGetPostPayload): AppThunk =>
   async (dispatch) => {
     const action =
       pageNo > 1

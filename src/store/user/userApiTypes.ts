@@ -1,4 +1,4 @@
-export interface IApiLoginOrSignUpPayload {
+export interface ApiLoginOrSignUpPayload {
   username: string;
   password: string;
 }

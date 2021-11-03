@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles';
 import LazyLoad from 'react-lazyload';
 
 import Truncate from './Truncate';
-import { IPostData } from '../../store/post/postModal';
+import { PostData } from '../../store/post/postModal';
 import AvatarPlaceHolder from '../../assets/images/AvatarPlaceHolder.jpeg';
 
 export const useStyles = makeStyles({
@@ -22,7 +22,7 @@ export const useStyles = makeStyles({
   },
 });
 
-const Post: FC<{ data: IPostData }> = memo(({ data }) => {
+const Post: FC<{ data: PostData }> = memo(({ data }) => {
   const classes = useStyles();
   const history = useHistory();
   const { id, imageName, caption, createdTime, author } = data;

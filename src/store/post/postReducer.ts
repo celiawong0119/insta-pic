@@ -1,16 +1,16 @@
-import { IPostData } from './postModal';
+import { PostData } from './postModal';
 import { CREATE_POST_ACTIONS, GET_MORE_POST_ACTIONS, GET_POST_ACTIONS } from './postActionTypes';
 
-interface IPostReducerState {
+interface PostReducerState {
   loading: boolean;
   latestPage: number;
-  data: IPostData[];
+  data: PostData[];
   authorName: string | undefined;
   hasMore: boolean;
   error: string | undefined;
 }
 
-const initialState: IPostReducerState = {
+const initialState: PostReducerState = {
   loading: false,
   latestPage: 1,
   data: [],
@@ -19,7 +19,7 @@ const initialState: IPostReducerState = {
   error: undefined,
 };
 
-const postReducer = (state = initialState, action: any): IPostReducerState => {
+const postReducer = (state = initialState, action: any): PostReducerState => {
   switch (action.type) {
     // create post
     case CREATE_POST_ACTIONS.START:

@@ -1,18 +1,18 @@
 import { AxiosResponse } from 'axios';
 import { getRequest } from '../libAddons/axios';
-import { IApiGetPostPayload } from '../store/post/postApiTypes';
-import { IPostData } from '../store/post/postModal';
+import { ApiGetPostPayload } from '../store/post/postApiTypes';
+import { PostData } from '../store/post/postModal';
 
-interface IFetchPost {
+interface FetchPost {
   userId?: string;
   sortByTime?: 'asc' | 'desc';
   pageNo?: number;
   tailId?: number;
 }
 
-interface IFetchPostResponse {
+interface FetchPostResponse {
   authorName?: string;
-  posts: IPostData[];
+  posts: PostData[];
 }
 
 export const fetchPost = ({
@@ -20,8 +20,8 @@ export const fetchPost = ({
   sortByTime = 'desc',
   pageNo,
   tailId,
-}: IFetchPost): Promise<AxiosResponse<IFetchPostResponse, any>> => {
-  return getRequest<IApiGetPostPayload, IFetchPostResponse>({
+}: FetchPost): Promise<AxiosResponse<FetchPostResponse, any>> => {
+  return getRequest<ApiGetPostPayload, FetchPostResponse>({
     url: '/api/posts',
     params: {
       userId: userId,

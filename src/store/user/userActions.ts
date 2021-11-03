@@ -3,18 +3,18 @@ import { AxiosError } from 'axios';
 import { AppThunk } from '../../libAddons/redux-thunk';
 import { setAuthTokenToCookie, clearAuthTokenInCookie } from '../../libAddons/universal-cookies';
 import { postRequest } from '../../libAddons/axios';
-import { IApiLoginOrSignUpPayload } from './userApiTypes';
-import { IUserData } from './userModal';
+import { ApiLoginOrSignUpPayload } from './userApiTypes';
+import { UserData } from './userModal';
 import { LOGIN_ACTIONS, SIGNUP_ACTIONS, LOGOUT_ACTIONS, VERIFY_TOKEN_ACTIONS } from './userActionTypes';
 
 export const login =
-  ({ username, password }: IApiLoginOrSignUpPayload): AppThunk =>
+  ({ username, password }: ApiLoginOrSignUpPayload): AppThunk =>
   async (dispatch) => {
     dispatch({ type: LOGIN_ACTIONS.START });
     try {
       const response = await postRequest<
-        IApiLoginOrSignUpPayload,
-        { jwtToken: string; jwtTokenExpires: number; data: IUserData }
+        ApiLoginOrSignUpPayload,
+        { jwtToken: string; jwtTokenExpires: number; data: UserData }
       >({
         url: '/api/auth/login',
         payload: {
@@ -33,13 +33,13 @@ export const login =
   };
 
 export const signup =
-  ({ username, password }: IApiLoginOrSignUpPayload): AppThunk =>
+  ({ username, password }: ApiLoginOrSignUpPayload): AppThunk =>
   async (dispatch) => {
     dispatch({ type: SIGNUP_ACTIONS.START });
     try {
       const response = await postRequest<
-        IApiLoginOrSignUpPayload,
-        { jwtToken: string; jwtTokenExpires: number; data: IUserData }
+        ApiLoginOrSignUpPayload,
+        { jwtToken: string; jwtTokenExpires: number; data: UserData }
       >({
         url: '/api/auth/signup',
         payload: {
@@ -68,7 +68,7 @@ export const logout = (): AppThunk => async (dispatch) => {
 export const verifyToken = (): AppThunk => async (dispatch) => {
   dispatch({ type: VERIFY_TOKEN_ACTIONS.START });
   try {
-    const response = await postRequest<never, { jwtToken: string; jwtTokenExpires: number; data: IUserData }>({
+    const response = await postRequest<never, { jwtToken: string; jwtTokenExpires: number; data: UserData }>({
       url: '/api/auth/verifyToken',
     });
 

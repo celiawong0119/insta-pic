@@ -1,4 +1,4 @@
-export interface IApiCreatePostPayload {
+export interface ApiCreatePostPayload {
   userId: number;
   imageFile: File;
   caption: string;
@@ -7,7 +7,7 @@ export interface IApiCreatePostPayload {
     sortByTime: 'asc' | 'desc';
   };
 }
-export interface IApiGetPostPayload {
+export interface ApiGetPostPayload {
   userId?: string;
   sortByTime?: 'asc' | 'desc';
   pageNo?: number;

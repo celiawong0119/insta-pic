@@ -1,20 +1,20 @@
-import { IUserData } from './userModal';
+import { UserData } from './userModal';
 import { LOGIN_ACTIONS, SIGNUP_ACTIONS, LOGOUT_ACTIONS, VERIFY_TOKEN_ACTIONS } from './userActionTypes';
 import { CREATE_POST_ACTIONS } from '../post/postActionTypes';
 
-interface IUserReducerState {
+interface UserReducerState {
   loading: boolean;
-  data: IUserData | undefined;
+  data: UserData | undefined;
   error: string | undefined;
 }
 
-const initialState: IUserReducerState = {
+const initialState: UserReducerState = {
   loading: false,
   data: undefined,
   error: undefined,
 };
 
-const userReducer = (state = initialState, action: any): IUserReducerState => {
+const userReducer = (state = initialState, action: any): UserReducerState => {
   switch (action.type) {
     case LOGIN_ACTIONS.START:
       return { ...initialState, loading: true };

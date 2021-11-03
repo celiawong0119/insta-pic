@@ -55,7 +55,7 @@ const useStyles = makeStyles({
   },
 });
 
-interface IDialog {
+interface DialogProps {
   open: boolean;
   onClose: () => void;
   sortDesc: boolean;
@@ -65,7 +65,7 @@ const Input = styled('input')({
   display: 'none',
 });
 
-const CreatePostDialog: FC<IDialog> = ({ open, onClose, sortDesc }) => {
+const CreatePostDialog: FC<DialogProps> = ({ open, onClose, sortDesc }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();

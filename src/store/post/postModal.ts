@@ -1,4 +1,4 @@
-export interface IPostData {
+export interface PostData {
   id: number;
   imageName: string;
   caption: string;
