@@ -8,7 +8,7 @@ import { login, signup } from '../../store/user/userActions';
 import { RootState } from '../../store';
 import { getAuthTokenFromCookie } from '../../libAddons/universal-cookies';
 
-interface IProps {
+interface LogInOrSignUpProps {
   variant: 'login' | 'signup';
 }
 
@@ -45,7 +45,7 @@ export const useStyles = makeStyles({
   },
 });
 
-const LogInOrSignUp: FC<IProps> = ({ variant }) => {
+const LogInOrSignUp: FC<LogInOrSignUpProps> = ({ variant }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
