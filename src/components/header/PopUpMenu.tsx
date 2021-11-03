@@ -16,8 +16,6 @@ interface MenuProps {
   toggleSort: () => void;
 }
 
-export const useStyles = makeStyles({});
-
 const PopUpMenu: FC<MenuProps> = ({ anchorEl, open, onMenuClose, sortDesc, toggleSort }) => {
   const history = useHistory();
   const dispatch = useDispatch();
