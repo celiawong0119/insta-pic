@@ -20,6 +20,7 @@ const setAxiosDefault = () => {
 setAxiosDefault();
 
 const App: FC = () => {
+  console.log('backend url =', process.env.REACT_APP_API);
   const dispatch = useDispatch();
   const { data: user } = useSelector((state: RootState) => state.user);
   const [sortDesc, setSortDesc] = useState<boolean>(true);
