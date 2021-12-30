@@ -35,7 +35,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "REACT_APP_API=http://188.166.243.138 PORT=80 react-scripts start"
+    "deploy": "REACT_APP_API=https://instapic-backend.celiawongwsy.com PORT=80 react-scripts start"
   },
   "eslintConfig": {
     "extends": [
